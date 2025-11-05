@@ -1,0 +1,151 @@
+:root {
+  --green: #e8f7e8;
+  --accent: #ff6b35;
+  --muted: #666;
+  --bg: #fafafa;
+  --card: #ffffff;
+  --success: #2e7d32;
+  --danger: #c62828;
+}
+body {
+  font-family: Inter, system-ui, Arial;
+  background: linear-gradient(180deg, #fbfcfd, #f3f6f8);
+  margin: 0;
+  padding: 20px;
+  color: #222;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+h1 {
+  margin: 0;
+  font-size: 20px;
+  color: #c84a1b;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 18px;
+}
+.card {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(20, 30, 40, 0.06);
+}
+label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  box-sizing: border-box;
+}
+.input-green input,
+.input-green select,
+.input-green textarea {
+  background: var(--green);
+  border: 1px solid #cfe9c9;
+}
+.section-title {
+  font-weight: 700;
+  margin: 6px 0 12px;
+  font-size: 14px;
+  color: #333;
+}
+.cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.rows {
+  display: grid;
+  gap: 10px;
+}
+.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.table {
+  display: grid;
+  gap: 8px;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.row > * {
+  flex: 1;
+}
+.btn {
+  background: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.results .metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f7f9fb;
+  margin-bottom: 8px;
+}
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+.ok {
+  background: var(--success);
+  color: white;
+}
+.ko {
+  background: var(--danger);
+  color: white;
+}
+.flex {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+footer {
+  margin-top: 18px;
+  text-align: right;
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .container {
+    padding: 10px;
+  }
+}
