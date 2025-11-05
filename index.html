@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Modèle financier — saisie</title>
+    <style>
+      :root {
+        --green: #e8f7e8;
+        --accent: #ff6b35;
+        --muted: #666;
+        --bg: #fafafa;
+        --card: #ffffff;
+        --success: #2e7d32;
+        --danger: #c62828;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        background: linear-gradient(180deg, #fbfcfd, #f3f6f8);
+        margin: 0;
+        padding: 20px;
+        color: #222;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #c84a1b;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 18px;
+      }
+      .card {
+        background: var(--card);
+        padding: 14px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(20, 30, 40, 0.06);
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: white;
+        box-sizing: border-box;
+      }
+      .input-green input,
+      .input-green select,
+      .input-green textarea {
+        background: var(--green);
+        border: 1px solid #cfe9c9;
+      }
+      .section-title {
+        font-weight: 700;
+        margin: 6px 0 12px;
+        font-size: 14px;
+        color: #333;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .rows {
+        display: grid;
+        gap: 10px;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .table {
+        display: grid;
+        gap: 8px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .row > * {
+        flex: 1;
+      }
+      .btn {
+        background: var(--accent);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .results .metric {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-radius: 8px;
+        background: #f7f9fb;
+        margin-bottom: 8px;
+      }
+      .badge {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 20px;
+      }
+      .ok {
+        background: var(--success);
+        color: white;
+      }
+      .ko {
+        background: var(--danger);
+        color: white;
+      }
+      .flex {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      footer {
+        margin-top: 18px;
+        text-align: right;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .container {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img
+          src="images/digital-agence.png"
+          alt=""
+          style="
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ffcfb3, #ffefea);
+          "
+        />
+        <div>
+          <h1>Un petit souvenir de souad</h1>
+          <a href="https://digitalagence.fr/">digitalagence.fr</a>
+          <div class="small">
+            Remplissez les champs verts uniquement. Le plan financier s'affiche
+            à droite.
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <!-- LEFT: Form -->
+        <div class="card">
+          <div class="section-title">Informations générales</div>
+          <div class="rows">
+            <div class="input-green">
+              <label>Prénom, nom</label>
+              <input id="name" type="text" placeholder="Ex: Jean Dupont" />
+            </div>
+            <div class="input-green">
+              <label>Intitulé du projet</label>
+              <input
+                id="project"
+                type="text"
+                placeholder="Nom ou description de l'activité"
+              />
+            </div>
+            <div class="cols">
+              <div class="input-green">
+                <label>Statut juridique</label>
+                <select id="statut">
+                  <option>Micro-entreprise</option>
+                  <option>SAS</option>
+                  <option>SARL</option>
+                  <option>Auto-entrepreneur</option>
+                </select>
+              </div>
+              <div class="input-green">
+                <label>Vente de marchandises ou services ?</label>
+                <select id="typeVente">
+                  <option>Mixte</option>
+                  <option>Marchandises</option>
+                  <option>Services</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cols">
+              <div class="input-green">
+                <label>Téléphone</label>
+                <input id="phone" type="text" />
+              </div>
+              <div class="input-green">
+                <label>Email</label>
+                <input id="email" type="text" />
+              </div>
+            </div>
+            <div class="input-green">
+              <label>Ville / commune</label>
+              <input id="ville" type="text" />
+            </div>
+
+            <hr />
+
+            <div class="section-title">
+              1) Besoins de démarrage (Hors taxes)
+            </div>
+            <div class="small">
+              Remplissez les montants (en €) — laissez 0 si non applicable.
+            </div>
+
+            <div class="table" id="startup-list">
+              <!-- List of typical items -->
+            </div>
+
+            <div class="cols" style="margin-top: 8px; align-items: end">
+              <div>
+                <label>Durée d'amortissement (années)</label>
+                <div class="input-green">
+                  <input id="amort" type="number" value="5" min="1" />
+                </div>
+              </div>
+              <div>
+                <label>Trésorerie de départ (€)</label>
+                <div class="input-green">
+                  <input id="treasury_start" type="number" value="0" min="0" />
+                </div>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="section-title">2) Financement des besoins</div>
+            <div class="small">
+              Indiquez montants disponibles pour financer le démarrage
+            </div>
+            <div class="table" id="financing-list"></div>
+
+            <hr />
+
+            <div class="section-title">3) Charges fixes (HT) — Année 1</div>
+            <div class="small">Montants annuels (HT)</div>
+            <div class="table" id="fixed-list"></div>
+
+            <hr />
+
+            <div class="section-title">4) Chiffre d'affaires (Année 1)</div>
+            <div class="small">
+              Pour chaque mois, indiquez le nombre de jours travaillés et CA
+              moyen/jour
+            </div>
+
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px"
+            >
+              <div class="card" style="padding: 10px">
+                <div class="small"><strong>Vente de marchandises</strong></div>
+                <div
+                  id="months-goods"
+                  class="table"
+                  style="margin-top: 8px"
+                ></div>
+              </div>
+              <div class="card" style="padding: 10px">
+                <div class="small"><strong>Services</strong></div>
+                <div
+                  id="months-services"
+                  class="table"
+                  style="margin-top: 8px"
+                ></div>
+              </div>
+            </div>
+
+            <div class="cols" style="margin-top: 8px">
+              <div class="input-green">
+                <label>% d'augmentation année1→2</label>
+                <input id="growth12" type="number" value="20" min="0" />
+              </div>
+              <div class="input-green">
+                <label>% d'augmentation année2→3</label>
+                <input id="growth23" type="number" value="20" min="0" />
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="section-title">5) Charges variables et BFR</div>
+            <div class="cols">
+              <div class="input-green">
+                <label>Coût d'achat marchandises (% du prix de vente)</label>
+                <input id="cogs" type="number" value="50" min="0" max="100" />
+              </div>
+              <div class="input-green">
+                <label>Durée moyenne crédits clients (jours)</label>
+                <input id="ar_days" type="number" value="30" min="0" />
+              </div>
+            </div>
+            <div class="cols" style="margin-top: 8px">
+              <div class="input-green">
+                <label>Durée moyenne dettes fournisseurs (jours)</label>
+                <input id="ap_days" type="number" value="30" min="0" />
+              </div>
+              <div class="input-green">
+                <label>Stock initial (valeur €)</label>
+                <input id="stock_init" type="number" value="0" min="0" />
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="section-title">7) Salaires & rémunération</div>
+            <div class="cols">
+              <div class="input-green">
+                <label>Salaires employés (annuel net)</label>
+                <input id="salaires" type="number" value="0" min="0" />
+              </div>
+              <div class="input-green">
+                <label>Rémunération dirigeant (annuel net)</label>
+                <input id="rem_dir" type="number" value="0" min="0" />
+              </div>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; gap: 8px">
+              <button id="calcBtn" class="btn">
+                Calculer le plan financier
+              </button>
+              <button id="exportJson" class="btn-ghost">Exporter JSON</button>
+              <button id="exportCsv" class="btn-ghost">Exporter CSV</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Results -->
+        <div class="card results">
+          <div class="section-title">Plan financier — Résultats</div>
+
+          <div id="summary">
+            <div class="metric">
+              <div>Total besoins démarrage</div>
+              <div id="total_start">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Total financements</div>
+              <div id="total_fin">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Gap à financer</div>
+              <div id="gap_fin">0 €</div>
+            </div>
+
+            <hr />
+
+            <div class="metric">
+              <div>CA Année 1</div>
+              <div id="sales_y1">0 €</div>
+            </div>
+            <div class="metric">
+              <div>CA Année 2 (prévu)</div>
+              <div id="sales_y2">0 €</div>
+            </div>
+            <div class="metric">
+              <div>CA Année 3 (prévu)</div>
+              <div id="sales_y3">0 €</div>
+            </div>
+
+            <hr />
+
+            <div class="metric">
+              <div>Charges variables (COGS) Année1</div>
+              <div id="var_costs">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Amortissement annuel</div>
+              <div id="amort_year">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Charges fixes + salaires</div>
+              <div id="fixed_plus_sal">0 €</div>
+            </div>
+
+            <hr />
+
+            <div class="metric">
+              <div>Résultat net (approx.) Année1</div>
+              <div id="net_profit">0 €</div>
+            </div>
+
+            <hr />
+
+            <div class="metric">
+              <div>Besoin en fonds de roulement (BFR)</div>
+              <div id="bfr">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Trésorerie nécessaire totale</div>
+              <div id="cash_need">0 €</div>
+            </div>
+            <div class="metric">
+              <div>Trésorerie disponible (apport + trésorerie saisie)</div>
+              <div id="cash_available">0 €</div>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; gap: 8px">
+              <div class="badge" id="rentability_badge">?</div>
+              <div class="badge" id="treasury_badge">?</div>
+            </div>
+
+            <hr />
+            <div class="small">Notes :</div>
+            <ul class="small">
+              <li>
+                Les calculs sont des estimations simplifiées à partir des
+                données saisies.
+              </li>
+              <li>
+                Amortissement linéaire = total investissements / durée (années).
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Application générée — personnalise librement les listes et labels.
+      </footer>
+    </div>
+
+    <script>
+      /* ---------- Data model: template lists ---------- */
+      const startupItems = [
+        { key: "frais_etab", label: "Frais d’établissement", value: 0 },
+        {
+          key: "ouverture_compteurs",
+          label: "Frais ouverture compteurs",
+          value: 0,
+        },
+        { key: "logiciels_form", label: "Logiciels, formations", value: 0 },
+        { key: "depot_marque", label: "Dépôt marque / brevet", value: 0 },
+        {
+          key: "droits_entree",
+          label: "Droits d’entrée (franchise, etc.)",
+          value: 0,
+        },
+        {
+          key: "achat_fonds",
+          label: "Achat fonds de commerce / parts",
+          value: 0,
+        },
+        { key: "droit_bail", label: "Droit au bail", value: 0 },
+        { key: "caution", label: "Caution / dépôt de garantie", value: 0 },
+        { key: "frais_dossier", label: "Frais de dossier", value: 0 },
+        { key: "frais_notaires", label: "Frais notaire / avocat", value: 0 },
+        { key: "enseigne", label: "Enseigne & communication", value: 0 },
+        { key: "achat_immo", label: "Achat immobilier", value: 0 },
+        { key: "travaux", label: "Travaux et aménagements", value: 0 },
+        { key: "materiel", label: "Matériel (outillage, machines)", value: 0 },
+        { key: "materiel_bureau", label: "Matériel de bureau", value: 0 },
+        { key: "stock_matiere", label: "Stock matières & produits", value: 0 },
+      ];
+
+      const financingItems = [
+        { key: "apport_perso", label: "Apport personnel / familial", value: 0 },
+        {
+          key: "apport_en_nature",
+          label: "Apports en nature (valeur)",
+          value: 0,
+        },
+        { key: "pret1", label: "Prêt n°1 (banque)", value: 0 },
+        { key: "pret2", label: "Prêt n°2 (banque)", value: 0 },
+        { key: "subv1", label: "Subvention n°1", value: 0 },
+        { key: "subv2", label: "Subvention n°2", value: 0 },
+        { key: "autre_fin", label: "Autre financement", value: 0 },
+      ];
+
+      const fixedCharges = [
+        { key: "assurances", label: "Assurances", value: 0 },
+        { key: "telephone", label: "Téléphone / internet", value: 0 },
+        { key: "abonnements", label: "Autres abonnements", value: 0 },
+        { key: "carburant", label: "Carburant / transports", value: 0 },
+        {
+          key: "frais_depl",
+          label: "Frais déplacement / hébergement",
+          value: 0,
+        },
+        { key: "eau_elec", label: "Eau / électricité / gaz", value: 0 },
+        { key: "mutuelle", label: "Mutuelle", value: 0 },
+        { key: "fourn_div", label: "Fournitures diverses", value: 0 },
+        { key: "entretien", label: "Entretien matériel / vêtements", value: 0 },
+        { key: "nettoyage", label: "Nettoyage locaux", value: 0 },
+        { key: "pub", label: "Budget publicité / com", value: 0 },
+        { key: "loyer", label: "Loyer & charges locatives", value: 0 },
+        { key: "expert", label: "Expert comptable / avocats", value: 0 },
+        { key: "frais_banc", label: "Frais bancaires & TPE", value: 0 },
+        { key: "taxes", label: "Taxes (CFE, autres)", value: 0 },
+      ];
+
+      /* ---------- DOM injection helpers ---------- */
+      function makeNumberInput(id, value = 0, placeholder = "0") {
+        const inp = document.createElement("input");
+        inp.type = "number";
+        inp.min = 0;
+        inp.value = value;
+        inp.id = id;
+        inp.placeholder = placeholder;
+        inp.addEventListener("input", onInputChange);
+        return inp;
+      }
+
+      /* populate startup list */
+      const startupEl = document.getElementById("startup-list");
+      startupItems.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `<div style="min-width:200px"><label class="small">${item.label}</label></div>`;
+        const inp = makeNumberInput(item.key, item.value);
+        row.appendChild(inp);
+        startupEl.appendChild(row);
+      });
+
+      /* populate financing list */
+      const finEl = document.getElementById("financing-list");
+      financingItems.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `<div style="min-width:200px"><label class="small">${item.label}</label></div>`;
+        const inp = makeNumberInput(item.key, item.value);
+        row.appendChild(inp);
+        finEl.appendChild(row);
+      });
+
+      /* populate fixed charges */
+      const fixedEl = document.getElementById("fixed-list");
+      fixedCharges.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `<div style="min-width:200px"><label class="small">${item.label}</label></div>`;
+        const inp = makeNumberInput(item.key, item.value);
+        row.appendChild(inp);
+        fixedEl.appendChild(row);
+      });
+
+      /* populate months tables for goods & services */
+      function makeMonthRow(prefix, monthIndex) {
+        const row = document.createElement("div");
+        row.className = "row";
+        const label = document.createElement("div");
+        label.innerHTML = `<label class="small">Mois ${monthIndex}</label>`;
+        const days = makeNumberInput(
+          `${prefix}_d_${monthIndex}`,
+          20,
+          "jours travaillés"
+        );
+        const avg = makeNumberInput(
+          `${prefix}_a_${monthIndex}`,
+          0,
+          "CA moyen / jour €"
+        );
+        row.appendChild(label);
+        row.appendChild(days);
+        row.appendChild(avg);
+        return row;
+      }
+      const goodsEl = document.getElementById("months-goods");
+      const servEl = document.getElementById("months-services");
+      for (let m = 1; m <= 12; m++) {
+        goodsEl.appendChild(makeMonthRow("g", m));
+        servEl.appendChild(makeMonthRow("s", m));
+      }
+
+      /* ---------- Calculation logic ---------- */
+      function readNumber(id) {
+        const el = document.getElementById(id);
+        if (!el) return 0;
+        const v = parseFloat(el.value);
+        return isNaN(v) ? 0 : v;
+      }
+
+      function sumKeys(list) {
+        return list.reduce((acc, item) => acc + readNumber(item.key), 0);
+      }
+
+      function sumFixed() {
+        return fixedCharges.reduce(
+          (acc, item) => acc + readNumber(item.key),
+          0
+        );
+      }
+
+      function annualSalesFor(prefix) {
+        // prefix 'g' or 's'
+        let total = 0;
+        for (let m = 1; m <= 12; m++) {
+          const days = readNumber(`${prefix}_d_${m}`);
+          const avg = readNumber(`${prefix}_a_${m}`);
+          total += days * avg;
+        }
+        return total;
+      }
+
+      function computeAll() {
+        // totals
+        const total_start = sumKeys(startupItems);
+        const total_fin =
+          sumKeys(financingItems) + readNumber("treasury_start"); // include treasury input as available cash
+        const gap = total_start - total_fin;
+
+        // sales
+        const sales_g = annualSalesFor("g");
+        const sales_s = annualSalesFor("s");
+        const sales_y1 = sales_g + sales_s;
+
+        const growth12 = readNumber("growth12") / 100;
+        const growth23 = readNumber("growth23") / 100;
+        const sales_y2 = sales_y1 * (1 + growth12);
+        const sales_y3 = sales_y2 * (1 + growth23);
+
+        // variable costs
+        const cogs_pct = readNumber("cogs") / 100;
+        const var_costs = sales_g * cogs_pct; // only merchandise concern goods
+
+        // amortissement
+        const amort_year = total_start / Math.max(1, readNumber("amort"));
+
+        // fixed + salaries
+        const fixed_year = sumFixed();
+        const salaires = readNumber("salaires");
+        const rem_dir = readNumber("rem_dir");
+        const fixed_plus_sal = fixed_year + salaires + rem_dir;
+
+        // net profit approx = sales - var_costs - fixed_plus_sal - amort_year
+        const net_profit = sales_y1 - var_costs - fixed_plus_sal - amort_year;
+
+        // BFR estimate:
+        const ar_days = readNumber("ar_days");
+        const ap_days = readNumber("ap_days");
+        const stock_init = readNumber("stock_init");
+
+        // BFR = (AR_days - AP_days)/365 * sales + stock initial (if positive)
+        const bfr = ((ar_days - ap_days) / 365) * sales_y1 + stock_init;
+        // available cash (apport + treasury start + other financings)
+        const cash_available =
+          sumKeys(financingItems) + readNumber("treasury_start");
+
+        // cash need = total_start + BFR (we assume need to fund both)
+        const cash_need = total_start + Math.max(0, bfr);
+
+        // treasury adequacy
+        const treasury_ok = cash_available >= cash_need ? true : false;
+
+        // rentability simple rule
+        const rentable = net_profit > 0;
+
+        return {
+          total_start,
+          total_fin,
+          gap,
+          sales_y1,
+          sales_y2,
+          sales_y3,
+          var_costs,
+          amort_year,
+          fixed_plus_sal,
+          net_profit,
+          bfr,
+          cash_need,
+          cash_available,
+          treasury_ok,
+          rentable,
+        };
+      }
+
+      /* ---------- UI update ---------- */
+      function format(n) {
+        const sign = n < 0 ? "-" : "";
+        const v = Math.abs(n);
+        return (
+          sign +
+          v.toLocaleString("fr-FR", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }) +
+          " €"
+        );
+      }
+
+      function render() {
+        const r = computeAll();
+        document.getElementById("total_start").textContent = format(
+          r.total_start
+        );
+        document.getElementById("total_fin").textContent = format(r.total_fin);
+        document.getElementById("gap_fin").textContent = format(r.gap);
+        document.getElementById("sales_y1").textContent = format(r.sales_y1);
+        document.getElementById("sales_y2").textContent = format(r.sales_y2);
+        document.getElementById("sales_y3").textContent = format(r.sales_y3);
+        document.getElementById("var_costs").textContent = format(r.var_costs);
+        document.getElementById("amort_year").textContent = format(
+          r.amort_year
+        );
+        document.getElementById("fixed_plus_sal").textContent = format(
+          r.fixed_plus_sal
+        );
+        document.getElementById("net_profit").textContent = format(
+          r.net_profit
+        );
+        document.getElementById("bfr").textContent = format(r.bfr);
+        document.getElementById("cash_need").textContent = format(r.cash_need);
+        document.getElementById("cash_available").textContent = format(
+          r.cash_available
+        );
+
+        const rentBadge = document.getElementById("rentability_badge");
+        rentBadge.textContent = r.rentable
+          ? "Rentable (prévision)"
+          : "Non rentable (prévision)";
+        rentBadge.className = "badge " + (r.rentable ? "ok" : "ko");
+
+        const treasBadge = document.getElementById("treasury_badge");
+        treasBadge.textContent = r.treasury_ok
+          ? "Trésorerie adéquate"
+          : "Trésorerie insuffisante";
+        treasBadge.className = "badge " + (r.treasury_ok ? "ok" : "ko");
+
+        return r;
+      }
+
+      /* ---------- Events & export ---------- */
+      function onInputChange() {
+        // auto live update if desired
+        // do not flood: we simply re-render
+        render();
+      }
+
+      document.getElementById("calcBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        render();
+        alert(
+          "Calcul effectué — consultez le panneau de droite pour les résultats."
+        );
+      });
+
+      document.getElementById("exportJson").addEventListener("click", () => {
+        const state = gatherAllInputs();
+        const blob = new Blob([JSON.stringify(state, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "plan_financier.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById("exportCsv").addEventListener("click", () => {
+        const state = gatherAllInputs();
+        // simple CSV flatten: key;value
+        let csv = "clé;valeur\\n";
+        Object.keys(state.inputs).forEach((k) => {
+          csv += `${k};"${String(state.inputs[k])}"\\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "plan_financier.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      function gatherAllInputs() {
+        const inputs = {};
+        // general fields
+        [
+          "name",
+          "project",
+          "statut",
+          "typeVente",
+          "phone",
+          "email",
+          "ville",
+          "amort",
+          "treasury_start",
+          "growth12",
+          "growth23",
+          "cogs",
+          "ar_days",
+          "ap_days",
+          "stock_init",
+          "salaires",
+          "rem_dir",
+        ].forEach((k) => {
+          inputs[k] = document.getElementById(k)
+            ? document.getElementById(k).value
+            : "";
+        });
+        // startup
+        startupItems.forEach((i) => (inputs[i.key] = readNumber(i.key)));
+        financingItems.forEach((i) => (inputs[i.key] = readNumber(i.key)));
+        fixedCharges.forEach((i) => (inputs[i.key] = readNumber(i.key)));
+        for (let m = 1; m <= 12; m++) {
+          inputs[`g_d_${m}`] = readNumber(`g_d_${m}`);
+          inputs[`g_a_${m}`] = readNumber(`g_a_${m}`);
+          inputs[`s_d_${m}`] = readNumber(`s_d_${m}`);
+          inputs[`s_a_${m}`] = readNumber(`s_a_${m}`);
+        }
+
+        const results = computeAll();
+        return { inputs, results };
+      }
+
+      /* init render */
+      render();
+    </script>
+  </body>
+</html>
